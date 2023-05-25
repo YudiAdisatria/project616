@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Balance;
+use App\Models\Transaction;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -17,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'username', 'password',
     ];
 
     /**
@@ -37,4 +39,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $primaryKey = 'uid';
+
+    public function balance(){
+        //class mana, fk class, fk sini
+        return $this->hasMany(Balance::class, 'uid', 'uid');
+    }
+    public function trx(){
+        //class mana, fk class, fk sini
+        return $this->hasMany(Transaction::class, 'uid', 'uid');
+    }
 }
